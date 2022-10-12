@@ -87,7 +87,7 @@ df = pd.read_csv(FLAGS.test_data_file)
 
 # Save all predictions
 with open(os.path.join(FLAGS.run_dir, 'predictions.csv'), 'w', encoding='utf-8', newline='') as f:
-    csvwriter = csv.writer(f)
+    csvwriter = csv.writer(f,delimiter ='}')
     csvwriter.writerow(['Content','True class', 'Prediction'])
     for i in range(len(all_predictions)):
         csvwriter.writerow([df.loc[i,'content'], labels[i], all_predictions[i]])
