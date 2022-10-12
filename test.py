@@ -5,8 +5,10 @@ import numpy as np
 import pickle as pkl
 import tensorflow as tf
 from tensorflow.contrib import learn
+import pandas as pd
 
 import data_helper
+
 
 # Show warnings and errors only
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -81,10 +83,12 @@ with graph.as_default():
 # Print test accuracy
 print('Test accuracy: {}'.format(final_accuracy))
 
+df = pd.read_csv(FLAGS.test_data_file)
+
 # Save all predictions
 with open(os.path.join(FLAGS.run_dir, 'predictions.csv'), 'w', encoding='utf-8', newline='') as f:
     csvwriter = csv.writer(f)
-    csvwriter.writerow(['True class', 'Prediction'])
+    csvwriter.writerow(['Content','True class', 'Prediction'])
     for i in range(len(all_predictions)):
-        csvwriter.writerow([labels[i], all_predictions[i]])
+        csvwriter.writerow([df.loc[i,'content'], labels[i], all_predictions[i]])
     print('Predictions saved to {}'.format(os.path.join(FLAGS.run_dir, 'predictions.csv')))
